@@ -27,18 +27,19 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
 
     private ListView listView;
-    private List<NewsTitle> newsTitleList = new ArrayList<>();
+    private List<NewsTitle> newsTitleList = new ArrayList<NewsTitle>();
     private NewsTitleAdapter newsTitleAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        requestNews();
-
         listView = findViewById(R.id.listView);
         newsTitleAdapter = new NewsTitleAdapter(this, R.layout.list_item, newsTitleList);
         listView.setAdapter(newsTitleAdapter);
+
+        requestNews();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Intent intent = new Intent(MainActivity.this, ContentActivity.class);
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     public void requestNews() {
@@ -78,9 +80,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: " + reason);
                 if (reason.equals("成功的返回")) {
                     newsTitleList.clear();
-//                    Toast.makeText(MainActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: " + newsBean.error_code + " " + newsBean.reason);
+//                    Log.d(TAG, "onResponse: " + newsBean.result.data);
+                    Log.d(TAG, "onResponse: " + responseText);
                     for (News news : newsBean.result.data) {
+//                        Log.d(TAG, "onResponse: " + news.title);
                         NewsTitle newsTitle = new NewsTitle(news.title, news.date, news.category, news.author_name, news.url);
                         newsTitleList.add(newsTitle);
                     }

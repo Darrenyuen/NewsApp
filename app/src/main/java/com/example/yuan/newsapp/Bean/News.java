@@ -1,6 +1,6 @@
 package com.example.yuan.newsapp.Bean;
 
-public class Data {
+public class News {
 
     public String uniquekey;
     public String title;

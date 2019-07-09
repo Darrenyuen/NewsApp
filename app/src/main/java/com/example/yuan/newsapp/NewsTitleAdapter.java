@@ -1,6 +1,7 @@
 package com.example.yuan.newsapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,14 @@ import java.util.List;
 
 public class NewsTitleAdapter extends ArrayAdapter<NewsTitle> {
 
+    private final String TAG = "NewsTitleAdapter";
+
     private int resourceId;
 
-    public NewsTitleAdapter(Context context, int resource,List<NewsTitle> objects) {
+    public NewsTitleAdapter(Context context, int resource, List<NewsTitle> objects) {
         super(context, resource, objects);
         resourceId = resource;
+        Log.d(TAG, "NewsTitleAdapter: ");
     }
 
     @Override
@@ -23,7 +27,7 @@ public class NewsTitleAdapter extends ArrayAdapter<NewsTitle> {
         NewsTitle newsTitle = getItem(position);
         View view;
         ViewHolder viewHolder;
-        if (convertView != null) {
+        if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.title = view.findViewById(R.id.title);
@@ -39,6 +43,7 @@ public class NewsTitleAdapter extends ArrayAdapter<NewsTitle> {
         viewHolder.date.setText(newsTitle.getDate());
         viewHolder.category.setText(newsTitle.getCategory());
         viewHolder.author_name.setText(newsTitle.getAuthor_name());
+        Log.d(TAG, "getView: " + newsTitle.getTitle());
         return view;
     }
 
