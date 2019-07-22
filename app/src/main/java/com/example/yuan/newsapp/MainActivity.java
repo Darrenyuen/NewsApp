@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,6 +20,7 @@ import com.example.yuan.newsapp.util.ParseUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private List<NewsTitle> newsTitleList = new ArrayList<NewsTitle>();
     private NewsTitleAdapter newsTitleAdapter;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         newsTitleAdapter = new NewsTitleAdapter(this, R.layout.list_item, newsTitleList);
         listView.setAdapter(newsTitleAdapter);
-
-        requestNews();
+        type = "top";
+        requestNews(type);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Intent intent = new Intent(MainActivity.this, ContentActivity.class);
@@ -53,8 +58,62 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void requestNews() {
-        String url = "http://v.juhe.cn/toutiao/index?type=top&key=c9bafcd7aff837f20267aa453ff843e4";
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.news_type, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.top:
+                type = "top";
+                requestNews(type);
+                return true;
+            case R.id.domestic:
+                type = "guonei";
+                requestNews(type);
+                return true;
+            case R.id.international:
+                type = "guoji";
+                requestNews(type);
+                return true;
+            case R.id.entertainment:
+                type = "yule";
+                requestNews(type);
+                return true;
+            case R.id.sports:
+                type = "tiyu";
+                requestNews(type);
+                return true;
+            case R.id.social:
+                type = "shehui";
+                requestNews(type);
+                return true;
+            case R.id.military:
+                type = "junshi";
+                requestNews(type);
+                return true;
+            case R.id.technology:
+                type = "keji";
+                requestNews(type);
+                return true;
+            case R.id.finance:
+                type = "caijing";
+                requestNews(type);
+                return true;
+            case R.id.fashion:
+                type = "shishang";
+                requestNews(type);
+                return true;
+                default: return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void requestNews(String type) {
+        String url = "http://v.juhe.cn/toutiao/index?type=" + type + "&key=c9bafcd7aff837f20267aa453ff843e4";
         HttpUtil.sendOkHttpRequest(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
