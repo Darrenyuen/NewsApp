@@ -1,6 +1,7 @@
 package com.example.yuan.newsapp;
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private List<NewsTitle> newsTitleList = new ArrayList<NewsTitle>();
     private NewsTitleAdapter newsTitleAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private String type;
 
     @Override
@@ -41,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
 
         listView = findViewById(R.id.listView);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                requestNews(type); //未知该type是否有效
+            }
+        });
         newsTitleAdapter = new NewsTitleAdapter(this, R.layout.list_item, newsTitleList);
         listView.setAdapter(newsTitleAdapter);
         type = "top";
