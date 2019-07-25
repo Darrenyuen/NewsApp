@@ -17,6 +17,10 @@ import com.example.yuan.newsapp.Bean.News;
 import com.example.yuan.newsapp.Bean.NewsBean;
 import com.example.yuan.newsapp.util.HttpUtil;
 import com.example.yuan.newsapp.util.ParseUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
 
     private ListView listView;
+    private SmartRefreshLayout smartRefreshLayout;
     private List<NewsTitle> newsTitleList = new ArrayList<NewsTitle>();
     private NewsTitleAdapter newsTitleAdapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private String type;
 
     @Override
@@ -43,18 +47,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
 
         listView = findViewById(R.id.listView);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                requestNews(type); //未知该type是否有效
-            }
-        });
+        smartRefreshLayout = findViewById(R.id.refreshLayout);
         newsTitleAdapter = new NewsTitleAdapter(this, R.layout.list_item, newsTitleList);
         listView.setAdapter(newsTitleAdapter);
         type = "top";
         requestNews(type);
+
+        //写清刷新新闻与加载新闻的逻辑
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                requestNews(type);
+                smartRefreshLayout.finishRefresh();
+                Toast.makeText(MainActivity.this, "刷新完成", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                loadMoreNews(type);
+                smartRefreshLayout.finishLoadMore();
+                Toast.makeText(MainActivity.this, "这是一个伪加载", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Intent intent = new Intent(MainActivity.this, ContentActivity.class);
@@ -160,5 +176,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void loadMoreNews(String type) {
+
     }
 }
