@@ -4,24 +4,21 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:background="@color/colorPrimaryDark"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp">-->
-        <!--<TextView-->
-            <!--android:text="新闻"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
-    <!--</android.support.v7.widget.Toolbar>-->
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlEnableFooterFollowWhenLoadFinished="true"
-        app:srlEnableScrollContentWhenLoaded="true">
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:layout_height="0dip"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="Gray"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="54dip"
+        app:tabIndicatorHeight="0dip"/>
 </LinearLayout>
