@@ -33,9 +33,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main);
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tab_layout);
+
+        initPager();
+
+        setTabs(tabLayout, getLayoutInflater(), TAB_TITLES, TAB_IMGS);
     }
 
     /**

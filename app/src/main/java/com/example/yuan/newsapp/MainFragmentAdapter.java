@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.yuan.newsapp.fragment.NewsFragment;
 import com.example.yuan.newsapp.fragment.PersonalFragment;
+import com.example.yuan.newsapp.fragment.PhotoWallFragment;
 
 /**
  * 主界面底部菜单栏适配器
@@ -29,7 +30,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
                 fragment = new NewsFragment();
                 break;
             case 1:
-                fragment = new PersonalFragment();
+                fragment = new PhotoWallFragment();
                 break;
             case 2:
                 fragment = new PersonalFragment();
