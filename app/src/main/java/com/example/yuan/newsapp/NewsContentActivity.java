@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class ContentActivity extends AppCompatActivity {
+public class NewsContentActivity extends AppCompatActivity {
 
     private WebView webView;
 
