@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">NewsApp</string>
+    <!--底部导航菜单-->
     <string name="menu_news">新闻</string>
     <string name="menu_photowall">照片墙</string>
     <string name="menu_personal">个人</string>
+    <!--新闻页面头部导航菜单-->
+    <string name="top">头条</string>
+    <string name="guonei">国内</string>
+    <string name="guoji">国际</string>
+    <string name="entertainment">娱乐</string>
+    <string name="sports">体育</string>
+    <string name="socials">社会</string>
+    <string name="military">军事</string>
+    <string name="technology">科技</string>
+    <string name="finance">财经</string>
+    <string name="fashion">时尚</string>
 </resources>
