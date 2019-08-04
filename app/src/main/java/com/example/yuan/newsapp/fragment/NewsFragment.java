@@ -93,7 +93,8 @@ public class NewsFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Toast.makeText(getContext(), tab.getText().toString(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onTabSelected: " + tab.getPosition() + tab.getText().toString());
+//                Toast.makeText(getContext(), tab.getPosition(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
