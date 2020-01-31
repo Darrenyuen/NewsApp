@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+    <TextView
+        android:id="@+id/newsTitleTextView"
+        android:text="众志成城，战胜疫情"
+        android:textColor="#000"
+        android:textSize="22sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/sourceTextView"
+            android:text="人民日报"
+            android:layout_marginRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/dateTextView"
+            android:text="2020年1月30日"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"/>
+        <TextView
+            android:id="@+id/typeTextView"
+            android:text="头条"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"/>
+    </LinearLayout>
+    <View
+        android:background="#6b6a66"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_margin="2dp"/>
+</LinearLayout>
