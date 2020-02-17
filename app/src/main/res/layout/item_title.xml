@@ -25,16 +25,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"/>
-        <TextView
-            android:id="@+id/typeTextView"
-            android:text="头条"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"/>
     </LinearLayout>
-    <View
-        android:background="#6b6a66"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_margin="2dp"/>
 </LinearLayout>

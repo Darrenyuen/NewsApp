@@ -1,36 +1,55 @@
 package com.yuan.news
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
-import com.google.gson.Gson
-import com.google.gson.JsonParser
-import com.yuan.news.adapter.NewsListViewAdapter
-import com.yuan.news.bean.DataBean
-import com.yuan.news.bean.KotlinDataBean
-import com.yuan.news.bean.NewsResult
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.yuan.news.adapter.NewsTitleAdapter
+import com.yuan.news.adapter.NewsTypeRecyclerViewAdapter
+import com.yuan.news.retrofitApi.GetNews
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
-import java.io.IOException
+import kotlinx.coroutines.*
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : BaseActivity() {
-    val TAG: String = this.javaClass.simpleName
+/**
+ * top(头条，默认),shehui(社会),guonei(国内),guoji(国际),yule(娱乐),tiyu(体育)junshi(军事),keji(科技),caijing(财经),shishang(时尚)
+ */
+class MainActivity : BaseActivity(), CoroutineScope {
 
-    val instance by lazy { this }
+//    private val instance by lazy { this }
 
-    var list: ArrayList<DataBean>? = null
+    private lateinit var job: Job
+
+    //继承CoroutineScope必须初始化coroutineContext变量
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main  //前面表示job,用于控制协程,后面是Dispatchers,指定启动的线程
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestNews()
-        val data = listOf("Kotlin", "Java", "C++", "Javascript", "Python")
-        if (list == null) {
+        newsTypeRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false) //没有layoutManager会跳过描绘布局
+        newsTypeRecyclerView.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+        newsTypeRecyclerView.adapter = NewsTypeRecyclerViewAdapter(resources.getStringArray(R.array.newsType))
+        job = Job()
 
-        } else {
-            val listViewAdapter = NewsListViewAdapter(instance, R.layout.item_title, list)
-            listView.adapter = listViewAdapter
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://v.juhe.cn/toutiao/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(GetNews::class.java)
+
+        launch {
+            progressBar.visibility = View.VISIBLE
+            val result = withContext(Dispatchers.IO) {
+                retrofit.getNews("top", "c9bafcd7aff837f20267aa453ff843e4").execute()
+            }
+            progressBar.visibility = View.GONE
+            if (result.isSuccessful) {
+                val list = result.body()?.result?.data
+                newsTitleRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
+                newsTitleRecyclerView.adapter = NewsTitleAdapter(this@MainActivity, R.layout.item_title, list)
+            }
         }
     }
 
@@ -38,20 +57,9 @@ class MainActivity : BaseActivity() {
         return R.layout.activity_main
     }
 
-    fun requestNews() {
-        HttpMethod.getInstance().sendRequest(object : Callback{
-            override fun onFailure(call: Call, e: IOException) {
-                Log.d(TAG, "onFailure")
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                Log.d(TAG, response.body!!.string())
-//                val list = Gson().fromJson(response.body.toString(), NewsResult::class.java).result.getData()
-//                Log.d(TAG, "" + list.size)
-//                for (singleList in list) println(singleList.author_name)
-            }
-        })
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
 }
