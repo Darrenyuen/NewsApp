@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="dropPullListView">
+        <attr name="isDropDownStyle" format="boolean"/>
+        <attr name="isPullupStyle" format="boolean"/>
+        <attr name="isAutoLoadOnBottom" format="boolean"/>
+    </declare-styleable>
+</resources>
