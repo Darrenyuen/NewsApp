@@ -39,7 +39,6 @@ abstract class BaseLazyFragment : BaseFragment() {
     }
 
     fun tryToLoadData(isForceUpdate: Boolean) {
-        Log.d(TAG, "try to load data $isVisibleToUser  $isViewInitialized  $isDataInitialized")
         if (isVisibleToUser && isViewInitialized && (!isDataInitialized || isForceUpdate)) {
             loadData()
         }
