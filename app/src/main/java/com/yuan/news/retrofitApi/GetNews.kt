@@ -1,6 +1,6 @@
 package com.yuan.news.retrofitApi
 
-import com.yuan.news.bean.NewsData
+import com.yuan.news.bean.NewsResult
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -11,5 +11,5 @@ import retrofit2.http.Query
  **/
 interface GetNews {
     @GET("index")
-    fun getNews(@Query("type") type: String, @Query("key") key: String): Call<NewsData>
+    fun getNews(@Query("type") type: String, @Query("key") key: String): Call<NewsResult>
 }

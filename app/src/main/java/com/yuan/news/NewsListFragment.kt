@@ -1,5 +1,6 @@
 package com.yuan.news
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,10 +14,7 @@ import com.yuan.news.base.BaseLazyFragment
 import com.yuan.news.bean.NewsData
 import com.yuan.news.bean.NewsResult
 import com.yuan.news.retrofitApi.GetNews
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,6 +27,10 @@ class NewsListFragment : BaseLazyFragment() {
     private var listView: ListView? = null
     private var newsTitleAdapter: NewsTitleAdapter? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
+
+    private var newsList: List<NewsResult.ResultBean.DataBean>? = null
+
+//    private var job: Job? = null
 
     companion object {
         fun newInstance(type: String): Fragment {
@@ -56,6 +58,12 @@ class NewsListFragment : BaseLazyFragment() {
         swipeRefreshLayout!!.setOnRefreshListener {
             tryToLoadData(true)
         }
+        listView!!.setOnItemClickListener { parent, view, position, id ->
+            Log.d(TAG, newsList!![position].url)
+            val intent = Intent(context, NewsContentActivity::class.java)
+            intent.putExtra("URL", newsList!![position].url)
+            startActivity(intent)
+        }
         return view
     }
 
@@ -76,10 +84,15 @@ class NewsListFragment : BaseLazyFragment() {
             }
             if (result.isSuccessful) {
                 swipeRefreshLayout!!.isRefreshing = false
-                newsTitleAdapter = NewsTitleAdapter(context!!, R.layout.item_title, result.body()!!.result.data)
+                newsList = result.body()!!.result.data
+                newsTitleAdapter = NewsTitleAdapter(context!!, R.layout.item_title, newsList!!)
                 listView!!.adapter = newsTitleAdapter
             }
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+//        if (job!!.) job!!.cancel()
+    }
 }
